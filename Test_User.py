@@ -8,7 +8,7 @@ def test_user_ctor():
 
     assert user.nomComplet == 'Jose Mari'
     assert user.DNI == '98765432J'
-    assert user.direcio == 'C. MatalasCañas, 78'
+    assert user.direccio == 'C. MatalasCañas, 78'
     assert user.email == 'joselito@pepemail.com'
     assert user.telefon == '999666999'
 
