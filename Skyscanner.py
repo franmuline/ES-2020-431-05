@@ -1,5 +1,5 @@
-from . import User
-from . import Flights
+from  User import User
+from Flights import Flights
 
 
 class Skyscanner():
