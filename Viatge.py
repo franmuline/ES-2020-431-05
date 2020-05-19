@@ -9,9 +9,12 @@ class Viatge:
         self.num_viatgers = num_viatgers
         self.destins = destins
         self.vols=[]
+        i=0
         for desti in destins:
-            self.vols.append(Flights(1234, desti, 160, 140))
+            self.vols.append(Flights(1234, desti, 100, 140))
+            self.vols[i].afegir_passatgers(self.num_viatgers)
         self.preu = 140*len(self.vols)
+        self.pagament_fet=False
 
     def afegir_desti(self, desti):
         self.destins.append(desti)
@@ -33,11 +36,16 @@ class Viatge:
 
     def confirma_reserva(self):
         skyscanner=Skyscanner()
-        missatge_confirmacio=skyscanner.confirm_reserve(self.user,self.vols)
+        missatge_confirmacio=False
+        if len(self.vols)<=4 and self.pagament_fet==True:
+            missatge_confirmacio=skyscanner.confirm_reserve(self.user,self.vols)
         return missatge_confirmacio
 
     def pagar(self, tipus_targeta, num_targeta, codi_seguretat):
         bank=Bank()
-        paymentdata=PaymentData(tipus_targeta,self.user.nomComplet,num_targeta,codi_seguretat,self.preu)
-        missatge_confirmacio=bank.do_payment(self.user,paymentdata)
+        missatge_confirmacio=False
+        if (tipus_targeta=="VISA" or tipus_targeta=="MasterCard") and (type(num_targeta) is int) and (type(codi_seguretat) is int):
+            self.paymentdata=PaymentData(tipus_targeta,self.user.nomComplet,num_targeta,codi_seguretat,self.preu)
+            missatge_confirmacio=bank.do_payment(self.user,self.paymentdata)
+            self.pagament_fet=True
         return missatge_confirmacio
