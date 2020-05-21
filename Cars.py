@@ -1,11 +1,9 @@
 class Cars:
 
-    def __init__(self,idReserva, matricula, marca, diesReservat):
-
-        self.idReserva = idReserva
-        self.matricula = matricula
-        self.marca = marca
-        self.diesReservat = diesReservat
-
-        pass
-
+    def __init__(self, codi, marca,desti, lloc_recollida, durada_reserva, preu_dia):
+        self.codi=codi
+        self.marca=marca
+        self.desti=desti
+        self.lloc_recollida=lloc_recollida
+        self.durada_reserva=durada_reserva
+        self.preu=self.durada_reserva*preu_dia

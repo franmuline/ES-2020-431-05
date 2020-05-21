@@ -28,9 +28,9 @@ class Test_Viatge_Afegir_Destins(TestCase):
         assert v1.vols[1].destinacio=="Roma"
 
     def test_afegir_destins_preu(self):
-        assert v1.preu==140
-        assert v2.preu==140
-        assert v3.preu==140
+        assert v1.preu==140*v1.num_viatgers
+        assert v2.preu==140*v2.num_viatgers
+        assert v3.preu==140*v3.num_viatgers
         v1.afegir_desti("Roma")
-        assert v1.preu==280
+        assert v1.preu==280*v1.num_viatgers
 
