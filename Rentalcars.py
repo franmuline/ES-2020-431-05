@@ -1,5 +1,5 @@
-from . import User
-from . import Cars
+from User import User
+from Cars import Cars
 
 
 class Rentalcars():
