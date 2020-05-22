@@ -42,11 +42,26 @@ class Viatge:
         return trobat
 
     def afegir_cotxe(self, desti, cotxe: Cars):
-        self.cotxes.append(cotxe)
-        if self.num_viatgers%4==0:
-            self.preu+=cotxe.preu*(int(self.num_viatgers/4))
-        else:
-            self.preu+=cotxe.preu*(int(self.num_viatgers/4)+1)
+        missatge_confirmacio=False
+        trobat=False
+        i=0
+        if desti in self.destins:
+            while trobat==False and i<len(self.cotxes):
+                if desti == self.cotxes[i].desti:
+                    trobat=True
+                else:
+                    i+=1
+            if trobat==False:
+                if desti==cotxe.desti and type(cotxe.preu) is int and type(cotxe.desti) is str and \
+                        type(cotxe.durada_reserva) is int and type(cotxe.lloc_recollida) is str and \
+                        type(cotxe.codi) is int and type(cotxe.marca) is str:
+                    self.cotxes.append(cotxe)
+                    if self.num_viatgers%4==0:
+                        self.preu+=cotxe.preu*(int(self.num_viatgers/4))
+                    else:
+                        self.preu+=cotxe.preu*(int(self.num_viatgers/4)+1)
+                    missatge_confirmacio=True
+        return missatge_confirmacio
 
     def treure_cotxe(self, desti):
         trobat=False
@@ -64,8 +79,23 @@ class Viatge:
         return trobat
 
     def afegir_allotjament(self, desti, hotel: Hotels):
-        self.hotels.append(hotel)
-        self.preu+=self.num_viatgers*hotel.preu
+        missatge_confirmacio = False
+        trobat = False
+        i = 0
+        if desti in self.destins:
+            while trobat == False and i < len(self.hotels):
+                if desti == self.hotels[i].desti:
+                    trobat=True
+                else:
+                    i+=1
+            if trobat==False:
+                if desti==hotel.desti and type(hotel.preu) is int and type(hotel.desti) is str \
+                    and type(hotel.codi) is int and type(hotel.num_hostes) is int and type(hotel.num_habitacions) is int \
+                    and type(hotel.nom) is str and type(hotel.durada_reserva) is int:
+                    self.hotels.append(hotel)
+                    self.preu+=self.num_viatgers*hotel.preu
+                    missatge_confirmacio=True
+        return missatge_confirmacio
 
     def treure_allotjament(self, desti):
         trobat=False
