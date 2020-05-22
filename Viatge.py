@@ -132,18 +132,30 @@ class Viatge:
                 i+=1
         return trobat
 
-    def confirma_reserva(self): #Confirma la reserva dels vols un cop pagat el viatge. Té en compte que el número
-                                #de vols es igual o menor a 4. Crida a la funcio de confirmar reserva d'un objecte de
-                                #la clase skyscanner i retorna True si s'ha confirmat correctament i False si no
+    def confirma_reserva(self):
+
+        """
+        Confirma la reserva dels vols un cop pagat el viatge. Té en compte que el número
+        de vols es igual o menor a 4. Crida a la funcio de confirmar reserva d'un objecte de
+        la clase skyscanner i retorna True si s'ha confirmat correctament i False si no
+        """
         skyscanner=Skyscanner()
         missatge_confirmacio=False
+        count = 0
         if len(self.vols)<=4 and self.pagament_fet==True:
-            missatge_confirmacio=skyscanner.confirm_reserve(self.user,self.vols)
+            while(True):
+                missatge_confirmacio = skyscanner.confirm_reserve(self.user, self.vols)
+                count += 1
+                if missatge_confirmacio or count >= 3:
+                    break
         return missatge_confirmacio
 
-    def pagar(self, tipus_targeta, num_targeta, codi_seguretat):    #Paga el viatge cridant al métode do_payment
-                                                                #d'un objecte de la clase Bank. Retorna True si s'ha produit correctament
-                                                                #i False si hi ha un error
+    def pagar(self, tipus_targeta, num_targeta, codi_seguretat):
+        """
+        Paga el viatge cridant al métode do_payment
+        d'un objecte de la clase Bank. Retorna True si s'ha produit correctament
+        i False si hi ha un error
+        """
         bank=Bank()
         missatge_confirmacio=False
         intents = 0
