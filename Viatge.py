@@ -5,6 +5,8 @@ from PaymentData import PaymentData
 from Bank import Bank
 from Cars import Cars
 from Hotels import Hotels
+from Rentalcars import Rentalcars
+from Booking import Booking
 
 class Viatge:
 
@@ -22,27 +24,39 @@ class Viatge:
         self.preu = 140*len(self.vols)*num_viatgers
         self.pagament_fet=False
 
-    def afegir_desti(self, desti):
+    def afegir_desti(self, desti): #Afegeix desti a la llista de destins i el vol corresponent a la llista de vols
+                                   #augmentant el preu de la manera corresponent
         self.destins.append(desti)
         vol=Flights(1234, desti, 160, 140)
         self.vols.append(vol)
         self.preu+=vol.preu*self.num_viatgers
 
-    def treure_desti(self, desti):
+    def treure_desti(self, desti):  #Treu el desti de la llista de destins i el vol corresponent de la llista de vols,
+                                    #disminuent el preu de la manera corresponent. Retorna True si s'ha eliminat i False
+                                    #si no s'ha pogut eliminar
         trobat=False
         i=0
         while trobat==False and i<len(self.vols):
             if self.vols[i].destinacio==desti:
                 self.preu=self.preu-self.vols[i].preu*self.num_viatgers
                 self.vols.remove(self.vols[i])
+                self.destins.remove(desti)
                 trobat=True
             else:
                 i+=1
-        self.destins.remove(desti)
+
         return trobat
 
-    def afegir_cotxe(self, desti, cotxe: Cars):
+    def afegir_cotxe(self, desti, cotxe: Cars):     #Afegeix cotxe a la llista de cotxes del viatge al desti que es demana.
+                                                    #Comprova que el desti es troba al viatge, que el cotxe es pugui reservar i
+                                                    #al desti demanat. La confirmacio o error en la reserva del cotxe es
+                                                    #realitza també en aquest métode, cridant a un objecte de la clase Rentalcars
+                                                    #Comprova que totes les dades del cotxe
+                                                    #siguin del tipus corresponent (explicat als fitxers dels tests de confirmacio-error de cotxes).
+                                                    #Augmenta el preu del viatge de la forma corresponent i retorna True si
+                                                    #la reserva es realitza correctament i False si no ho fa
         missatge_confirmacio=False
+        rentalcars=Rentalcars()
         trobat=False
         i=0
         if desti in self.destins:
@@ -60,10 +74,11 @@ class Viatge:
                         self.preu+=cotxe.preu*(int(self.num_viatgers/4))
                     else:
                         self.preu+=cotxe.preu*(int(self.num_viatgers/4)+1)
-                    missatge_confirmacio=True
+                    missatge_confirmacio=rentalcars.confirm_reserve(self.user,cotxe)
         return missatge_confirmacio
 
-    def treure_cotxe(self, desti):
+    def treure_cotxe(self, desti):      #Treu el cotxe del desti demanat, si es que hi havia un cotxe demanat per el
+                                        #desti. Retorna True si la operacio s'ha realitzat correctament i False si no
         trobat=False
         i=0
         while trobat==False and i<len(self.cotxes):
@@ -78,7 +93,13 @@ class Viatge:
                 i+=1
         return trobat
 
-    def afegir_allotjament(self, desti, hotel: Hotels):
+    def afegir_allotjament(self, desti, hotel: Hotels): #Afegeix hotel corresponent al desti corresponent.
+                                                        #Igual que amb els cotxes, la confirmació o error en la reserva
+                                                        #es realitza en aquest métode, cridant a un objecte de la clase Booking.
+                                                        #Si la reserva es confirma correctament, es retorna True, i si no,
+                                                        #False. També comprova que dades de l'hotel siguin correctes
+                                                        #(explicat al document de tests de confirmacio-error hotels)
+        booking=Booking()
         missatge_confirmacio = False
         trobat = False
         i = 0
@@ -94,10 +115,12 @@ class Viatge:
                     and type(hotel.nom) is str and type(hotel.durada_reserva) is int:
                     self.hotels.append(hotel)
                     self.preu+=self.num_viatgers*hotel.preu
-                    missatge_confirmacio=True
+                    missatge_confirmacio=booking.confirm_reserve(self.user,hotel)
         return missatge_confirmacio
 
-    def treure_allotjament(self, desti):
+    def treure_allotjament(self, desti):    #Treu l'hotel del desti que es pasa com a parámetre. Comprova si existeix
+                                            #un hotel reservat en el desti corresponent i l'elimina de la llista d'hotels,
+                                            #disminuint el preu del viatge de la forma corresponent
         trobat=False
         i=0
         while trobat==False and i<len(self.hotels):
@@ -109,20 +132,18 @@ class Viatge:
                 i+=1
         return trobat
 
-    def confirma_reserva(self):
-        skyscanner = Skyscanner()
-        missatge_confirmacio = False
-        intentos = 0
-        if len(self.vols) <= 4 and self.pagament_fet == True:
-            while True:
-                missatge_confirmacio = skyscanner.confirm_reserve(self.user,self.vols)
-                intentos += 1
-                if missatge_confirmacio or intentos >= 3:
-                    break
+    def confirma_reserva(self): #Confirma la reserva dels vols un cop pagat el viatge. Té en compte que el número
+                                #de vols es igual o menor a 4. Crida a la funcio de confirmar reserva d'un objecte de
+                                #la clase skyscanner i retorna True si s'ha confirmat correctament i False si no
+        skyscanner=Skyscanner()
+        missatge_confirmacio=False
+        if len(self.vols)<=4 and self.pagament_fet==True:
+            missatge_confirmacio=skyscanner.confirm_reserve(self.user,self.vols)
         return missatge_confirmacio
 
-
-    def pagar(self, tipus_targeta, num_targeta, codi_seguretat):
+    def pagar(self, tipus_targeta, num_targeta, codi_seguretat):    #Paga el viatge cridant al métode do_payment
+                                                                #d'un objecte de la clase Bank. Retorna True si s'ha produit correctament
+                                                                #i False si hi ha un error
         bank=Bank()
         missatge_confirmacio=False
         intents = 0
