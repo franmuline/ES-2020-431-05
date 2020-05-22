@@ -2,7 +2,7 @@ from User import User
 from Flights import Flights
 from Skyscanner import Skyscanner
 from PaymentData import PaymentData
-from src.Bank import Bank
+from Bank import Bank
 from Cars import Cars
 from Hotels import Hotels
 
