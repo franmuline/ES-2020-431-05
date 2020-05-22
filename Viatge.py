@@ -110,11 +110,17 @@ class Viatge:
         return trobat
 
     def confirma_reserva(self):
-        skyscanner=Skyscanner()
-        missatge_confirmacio=False
-        if len(self.vols)<=4 and self.pagament_fet==True:
-            missatge_confirmacio=skyscanner.confirm_reserve(self.user,self.vols)
+        skyscanner = Skyscanner()
+        missatge_confirmacio = False
+        intentos = 0
+        if len(self.vols) <= 4 and self.pagament_fet == True:
+            while True:
+                missatge_confirmacio = skyscanner.confirm_reserve(self.user,self.vols)
+                intentos += 1
+                if missatge_confirmacio or intentos >= 3:
+                    break
         return missatge_confirmacio
+
 
     def pagar(self, tipus_targeta, num_targeta, codi_seguretat):
         bank=Bank()
