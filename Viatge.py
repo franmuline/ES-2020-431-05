@@ -2,10 +2,12 @@ from User import User
 from Flights import Flights
 from Skyscanner import Skyscanner
 from PaymentData import PaymentData
-from Bank import Bank
+from src.Bank import Bank
 from Cars import Cars
 from Hotels import Hotels
+
 class Viatge:
+
     def __init__(self, usuari: User, num_viatgers, destins):
         self.user=usuari
         self.num_viatgers = num_viatgers
@@ -87,8 +89,15 @@ class Viatge:
     def pagar(self, tipus_targeta, num_targeta, codi_seguretat):
         bank=Bank()
         missatge_confirmacio=False
+        intents = 0
         if (tipus_targeta=="VISA" or tipus_targeta=="MasterCard") and (type(num_targeta) is int) and (type(codi_seguretat) is int):
             self.paymentdata=PaymentData(tipus_targeta,self.user.nomComplet,num_targeta,codi_seguretat,self.preu)
-            missatge_confirmacio=bank.do_payment(self.user,self.paymentdata)
-            self.pagament_fet=True
+            while True:
+                missatge_confirmacio=bank.do_payment(self.user,self.paymentdata)
+                intents+=1
+                if missatge_confirmacio:
+                    self.pagament_fet=True
+                if (self.pagament_fet == True) or (intents >= 3) or (self.num_viatgers <= 1) or (len(self.destins) <= 1):
+                    break
         return missatge_confirmacio
+
