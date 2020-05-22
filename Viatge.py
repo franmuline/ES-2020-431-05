@@ -5,7 +5,9 @@ from PaymentData import PaymentData
 from Bank import Bank
 from Cars import Cars
 from Hotels import Hotels
+
 class Viatge:
+
     def __init__(self, usuari: User, num_viatgers, destins):
         self.user=usuari
         self.num_viatgers = num_viatgers
@@ -40,11 +42,26 @@ class Viatge:
         return trobat
 
     def afegir_cotxe(self, desti, cotxe: Cars):
-        self.cotxes.append(cotxe)
-        if self.num_viatgers%4==0:
-            self.preu+=cotxe.preu*(int(self.num_viatgers/4))
-        else:
-            self.preu+=cotxe.preu*(int(self.num_viatgers/4)+1)
+        missatge_confirmacio=False
+        trobat=False
+        i=0
+        if desti in self.destins:
+            while trobat==False and i<len(self.cotxes):
+                if desti == self.cotxes[i].desti:
+                    trobat=True
+                else:
+                    i+=1
+            if trobat==False:
+                if desti==cotxe.desti and type(cotxe.preu) is int and type(cotxe.desti) is str and \
+                        type(cotxe.durada_reserva) is int and type(cotxe.lloc_recollida) is str and \
+                        type(cotxe.codi) is int and type(cotxe.marca) is str:
+                    self.cotxes.append(cotxe)
+                    if self.num_viatgers%4==0:
+                        self.preu+=cotxe.preu*(int(self.num_viatgers/4))
+                    else:
+                        self.preu+=cotxe.preu*(int(self.num_viatgers/4)+1)
+                    missatge_confirmacio=True
+        return missatge_confirmacio
 
     def treure_cotxe(self, desti):
         trobat=False
@@ -62,8 +79,23 @@ class Viatge:
         return trobat
 
     def afegir_allotjament(self, desti, hotel: Hotels):
-        self.hotels.append(hotel)
-        self.preu+=self.num_viatgers*hotel.preu
+        missatge_confirmacio = False
+        trobat = False
+        i = 0
+        if desti in self.destins:
+            while trobat == False and i < len(self.hotels):
+                if desti == self.hotels[i].desti:
+                    trobat=True
+                else:
+                    i+=1
+            if trobat==False:
+                if desti==hotel.desti and type(hotel.preu) is int and type(hotel.desti) is str \
+                    and type(hotel.codi) is int and type(hotel.num_hostes) is int and type(hotel.num_habitacions) is int \
+                    and type(hotel.nom) is str and type(hotel.durada_reserva) is int:
+                    self.hotels.append(hotel)
+                    self.preu+=self.num_viatgers*hotel.preu
+                    missatge_confirmacio=True
+        return missatge_confirmacio
 
     def treure_allotjament(self, desti):
         trobat=False
@@ -87,8 +119,15 @@ class Viatge:
     def pagar(self, tipus_targeta, num_targeta, codi_seguretat):
         bank=Bank()
         missatge_confirmacio=False
+        intents = 0
         if (tipus_targeta=="VISA" or tipus_targeta=="MasterCard") and (type(num_targeta) is int) and (type(codi_seguretat) is int):
             self.paymentdata=PaymentData(tipus_targeta,self.user.nomComplet,num_targeta,codi_seguretat,self.preu)
-            missatge_confirmacio=bank.do_payment(self.user,self.paymentdata)
-            self.pagament_fet=True
+            while True:
+                missatge_confirmacio=bank.do_payment(self.user,self.paymentdata)
+                intents+=1
+                if missatge_confirmacio:
+                    self.pagament_fet=True
+                if (self.pagament_fet == True) or (intents >= 3) or (self.num_viatgers <= 1) or (len(self.destins) <= 1):
+                    break
         return missatge_confirmacio
+

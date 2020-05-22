@@ -1,9 +1,10 @@
 from User import User
 from PaymentData import PaymentData
+import unittest
 
+class Bank(unittest.TestCase):
 
-class Bank:
-
+    @classmethod
     def __init__(self):
         pass
 
