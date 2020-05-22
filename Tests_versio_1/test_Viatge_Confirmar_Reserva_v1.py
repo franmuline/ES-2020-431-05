@@ -11,8 +11,8 @@ v3=Viatge(steverogers,2,["Tokyo"])
 v1.pagar("VISA",23542345,456234)
 v2.pagar("MasterCard",5677,2534)
 v3.pagar("VISA",5463987,9787)
-#Para confirmar reserva, hay que pagar el viaje primero
-
+#Per confirmar reserva, cal pagar el viatge primer
+#Controla que, quan es confirma la reserva de vols, es reporti la confirmacio
 class Test_Viatge_Confirmar_Reserva(TestCase):
     def test_reserva(self):
         assert v1.confirma_reserva()==True

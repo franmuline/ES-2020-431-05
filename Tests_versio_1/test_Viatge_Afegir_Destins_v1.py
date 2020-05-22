@@ -13,6 +13,7 @@ v3.afegir_desti("Tokyo")
 #Si se pasan los tests uno por uno, el resultado es bueno
 #Si los se ponen todos a la vez, falla y no sabemos porqué
 class Test_Viatge_Afegir_Destins(TestCase):
+    #Controla que, al afegir destins, la llista de destins sigui la corresponent
     def test_afegir_destins_destins(self):
         assert v1.destins==['Paris']
         assert v2.destins==['Moscu']
@@ -20,6 +21,7 @@ class Test_Viatge_Afegir_Destins(TestCase):
         v1.afegir_desti("Roma")
         assert v1.destins == ['Paris','Roma']
 
+    #Controla que, al afegir destins, la llista de vols sigui la corresponent
     def test_afegir_destins_vols(self):
         assert v1.vols[0].destinacio=="Paris"
         assert v2.vols[0].destinacio=="Moscu"
@@ -27,6 +29,7 @@ class Test_Viatge_Afegir_Destins(TestCase):
         v1.afegir_desti("Roma")
         assert v1.vols[1].destinacio=="Roma"
 
+    #Controla que, al afegir destins, el preu del viatge sigui el corresponent
     def test_afegir_destins_preu(self):
         assert v1.preu==140*v1.num_viatgers
         assert v2.preu==140*v2.num_viatgers

@@ -11,7 +11,7 @@ v3=Viatge(steverogers,2,["Tokyo"])
 hotel=[Hotels(1234,"Hotel Paris","Paris",100,45,4,60),Hotels(6798,"Hotel Roma","Roma",120,50,4,50),
        Hotels(4593,"Hotel Moscu","Moscu",150,70,4,100), Hotels(8023,"Hotel Tokyo","Tokyo",65,23,3,40)]
 
-
+#Controla que, quan afegim/treiem allotjament al/del viatge, el preu és l'esperat
 class Test_Afegir_Treure_Vehicles(TestCase):
     def test_afegir_treure_allotjament(self):
         v1.afegir_allotjament("Paris", hotel[0])

@@ -18,6 +18,7 @@ v4.pagar("VISA", 975674,523467)
 #Per confirmar la reserva cal que el numero de destins sigui <=4 i
 #hagis pagat el viatge amb anterioritat
 
+#Controla que, quan hi ha un error a la reserva de vols, es reporti de l'acció
 class Test_Error_Reserva(TestCase):
     def test_error_reserva(self):
         assert v1.confirma_reserva()==False

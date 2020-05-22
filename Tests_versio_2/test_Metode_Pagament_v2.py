@@ -11,6 +11,7 @@ v1=Viatge(steverogers,4,["Paris", "Roma"])
 v2=Viatge(steverogers,10,["Moscu"])
 v3=Viatge(steverogers,2,["Tokyo"])
 
+#Controla que, quan es fa el pagament del viatge, el métode de pagament es l'esperat
 class Test_Metode_Pagament(TestCase):
     def test_metode_pagament(self):
         v1.pagar(tipus_targeta[0],num_targeta[0],codi_seguretat[0])
