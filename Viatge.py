@@ -170,3 +170,19 @@ class Viatge:
                     break
         return missatge_confirmacio
 
+    def confirma_reserva_coche(self):
+
+        """
+        Confirma la reserva dels cotxes un cop pagat el viatge. Té en compte que un número de intents màxim.
+        Crida a la funcio de confirmar reserva d'un objecte de
+        la clase RentalCars i retorna True si s'ha confirmat correctament i False si no
+        """
+        rentalcars=Rentalcars()
+        missatge_confirmacio=False
+        Max_Reintent =4
+        cont = 0
+        while( cont < Max_Reintent and missatge_confirmacio == False and self.pagament_fet==True):
+            missatge_confirmacio = rentalcars.confirm_reserve(self.user, self.cotxes)
+            cont += 1
+            
+        return missatge_confirmacio
