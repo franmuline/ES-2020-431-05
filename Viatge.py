@@ -49,14 +49,13 @@ class Viatge:
 
     def afegir_cotxe(self, desti, cotxe: Cars):     #Afegeix cotxe a la llista de cotxes del viatge al desti que es demana.
                                                     #Comprova que el desti es troba al viatge, que el cotxe es pugui reservar i
-                                                    #al desti demanat. La confirmacio o error en la reserva del cotxe es
-                                                    #realitza també en aquest métode, cridant a un objecte de la clase Rentalcars
+                                                    #al desti demanat. La confirmacio o error al afegir el cotxe a la llista de
+                                                    #cotxes es realitza en aquest métode
                                                     #Comprova que totes les dades del cotxe
                                                     #siguin del tipus corresponent (explicat als fitxers dels tests de confirmacio-error de cotxes).
                                                     #Augmenta el preu del viatge de la forma corresponent i retorna True si
                                                     #la reserva es realitza correctament i False si no ho fa
         missatge_confirmacio=False
-        rentalcars=Rentalcars()
         trobat=False
         i=0
         if desti in self.destins:
@@ -74,7 +73,7 @@ class Viatge:
                         self.preu+=cotxe.preu*(int(self.num_viatgers/4))
                     else:
                         self.preu+=cotxe.preu*(int(self.num_viatgers/4)+1)
-                    missatge_confirmacio=rentalcars.confirm_reserve(self.user,cotxe)
+                    missatge_confirmacio=True
         return missatge_confirmacio
 
     def treure_cotxe(self, desti):      #Treu el cotxe del desti demanat, si es que hi havia un cotxe demanat per el
@@ -99,7 +98,6 @@ class Viatge:
                                                         #Si la reserva es confirma correctament, es retorna True, i si no,
                                                         #False. També comprova que dades de l'hotel siguin correctes
                                                         #(explicat al document de tests de confirmacio-error hotels)
-        booking=Booking()
         missatge_confirmacio = False
         trobat = False
         i = 0
@@ -115,7 +113,7 @@ class Viatge:
                     and type(hotel.nom) is str and type(hotel.durada_reserva) is int:
                     self.hotels.append(hotel)
                     self.preu+=self.num_viatgers*hotel.preu
-                    missatge_confirmacio=booking.confirm_reserve(self.user,hotel)
+                    missatge_confirmacio=True
         return missatge_confirmacio
 
     def treure_allotjament(self, desti):    #Treu l'hotel del desti que es pasa com a parámetre. Comprova si existeix
