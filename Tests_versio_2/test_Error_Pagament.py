@@ -11,6 +11,7 @@ v1=Viatge(steverogers,4,["Paris", "Roma"])
 v2=Viatge(steverogers,10,["Moscu"])
 v3=Viatge(steverogers,2,["Tokyo"])
 
+#Controla que, quan es produeix un error al pagament, es reporti l'error
 class Test_Error_Pagament(TestCase):
     def test_error_pagament(self):
         assert v1.pagar(tipus_targeta[0],num_targeta[0],codi_seguretat[0])==True

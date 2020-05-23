@@ -11,7 +11,7 @@ v3=Viatge(steverogers,2,["Tokyo"])
 cotxe=[Cars(12345,"Ford","Paris","Aeoroport Paris",4,100),Cars(6789,"Peugot","Roma","Aeroport Roma",4,80),
        Cars(2468,"Opel","Moscu","Aeroport Moscu",4,90), Cars(1357,"Audi","Tokyo","Aeroport Tokyo",3,120)]
 
-
+#Controla que, quan afegim/treiem vehícles al/del viatge, el preu és l'esperat
 class Test_Afegir_Treure_Vehicles(TestCase):
     def test_afegir_treure_vehicles(self):
         v1.afegir_cotxe("Paris", cotxe[0])

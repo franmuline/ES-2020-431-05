@@ -12,6 +12,7 @@ v1=Viatge(steverogers,4,["Paris", "Roma"])
 v2=Viatge(steverogers,10,["Moscu"])
 v3=Viatge(steverogers,2,["Tokyo"])
 
+#Controla que, quan es paga el viatge, es reporta que l'acció s'ha dut a terme correctament
 class Test_Viatge_Pagament_Reserva(TestCase):
     def test_pagament(self):
         assert v1.pagar(tipus_targeta1,num_targeta,codi_seguretat)==True
